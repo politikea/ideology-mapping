@@ -12,7 +12,10 @@ build/
 venv/
 env/
 
-# Jupyter
+# Jupyter — notebooks are intentionally NOT auto-tracked.
+# Use `git add -f notebooks/<name>.ipynb` to deliberately include a notebook.
+# This prevents accidental pushes of work-in-progress or scratch notebooks.
+*.ipynb
 .ipynb_checkpoints/
 
 # Outputs (generated at runtime — not checked in)
