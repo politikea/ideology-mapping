@@ -1,0 +1,101 @@
+item_id,text,category,source
+ex_001,"Establish a universal basic income of €900/month for all citizens over 18, funded through a progressive tax on capital income.",Economy & Taxation,synthetic
+ex_002,"Expropriate vacant properties owned by banks or investment funds and allocate them to regulated social rental housing.",Infrastructure & Housing,synthetic
+ex_003,"Eliminate public funding of political parties. Parties should be funded solely by voluntary contributions from members and supporters.",Institutions & Government,synthetic
+ex_004,"Reduce public spending by 30% over the next four years by eliminating administrative duplication between the central state and regional governments.",Economy & Taxation,synthetic
+ex_005,"Legislate a maximum 32-hour working week, maintaining current salary levels for all workers.",Labour & Job Market,synthetic
+ex_006,"Privatise the management of public hospitals while maintaining state ownership, following a concession model with quality controls.",Public Services,synthetic
+ex_007,"Increase the number of law enforcement officers by 20%, with a special focus on high-crime areas.",Security & Defence,synthetic
+ex_008,"Legalise personal cannabis use and regulated production, with state oversight of retail points and minimum THC content.",Rights & Freedoms,synthetic
+ex_009,"Ban single-use plastics in retail. Businesses will have 18 months to adapt before penalties apply.","Science, Energy & Environment",synthetic
+ex_010,"Introduce personal finance as a compulsory subject in secondary school, covering saving, investment, credit, and budget management.",Culture & Civic Education,synthetic
+ex_011,"Abolish inheritance tax on primary residences passed to direct family members. Wealth accumulated through a lifetime of work should not be taxed twice.",Economy & Taxation,synthetic
+ex_012,"Introduce a windfall profits tax on energy companies that record profits above their five-year average during periods of high consumer energy prices.",Economy & Taxation,synthetic
+ex_013,"Create a public pharmaceutical company to manufacture generic medicines for the national health system, reducing dependence on private suppliers.",Public Services,synthetic
+ex_014,"Require all public hospitals to publish waiting-time data by specialty and region on a monthly basis, with penalties for persistent underperformance.",Public Services,synthetic
+ex_015,"Convert all fixed-term public sector employment contracts to permanent positions for workers who have been continuously employed for more than two years.",Labour & Job Market,synthetic
+ex_016,"Allow companies with fewer than ten employees to agree working hours and conditions directly with workers, without sector-level collective bargaining.",Labour & Job Market,synthetic
+ex_017,"Mandate that all new residential buildings of more than four floors include a minimum 20% allocation of units for subsidised rental housing.",Infrastructure & Housing,synthetic
+ex_018,"Deregulate urban planning restrictions on residential construction density to increase housing supply and reduce prices through market competition.",Infrastructure & Housing,synthetic
+ex_019,"Establish a national registry of beneficial ownership for all companies operating in the country, publicly accessible and updated quarterly.",Institutions & Government,synthetic
+ex_020,"Reduce the number of elected representatives in the national parliament by 40% to cut political costs and improve legislative efficiency.",Institutions & Government,synthetic
+ex_021,"Create a standing citizens' assembly, selected by sortition, with binding advisory power over major constitutional amendments.",Institutions & Government,synthetic
+ex_022,"Reform the electoral system to introduce a mixed proportional-majoritarian model, replacing pure proportional representation in all constituencies.",Institutions & Government,synthetic
+ex_023,"Prohibit the use of facial recognition technology by law enforcement in public spaces without prior judicial authorisation.",Security & Defence,synthetic
+ex_024,"Equip all police officers with body cameras that record continuously during duty hours, with footage retained for 90 days and accessible to oversight bodies.",Security & Defence,synthetic
+ex_025,"Increase military spending to 2% of GDP to meet NATO commitments and modernise the armed forces.",Security & Defence,synthetic
+ex_026,"Redirect 50% of the defence budget to civilian conflict prevention and diplomatic capacity, reducing reliance on military deterrence.",Security & Defence,synthetic
+ex_027,"Legalise same-sex marriage and ensure full adoption rights for same-sex couples under the same legal framework as different-sex couples.",Rights & Freedoms,synthetic
+ex_028,"Restrict access to gender-affirming medical treatment for minors under 16 pending a mandatory review period and second specialist opinion.",Rights & Freedoms,synthetic
+ex_029,"Introduce a digital bill of rights guaranteeing citizens the right to data portability, algorithmic explanation, and deletion from commercial databases.",Rights & Freedoms,synthetic
+ex_030,"Decriminalise all personal drug use and transfer drug-related public health interventions to the health ministry, removing criminal penalties for possession.",Rights & Freedoms,synthetic
+ex_031,"Accelerate the national transition to renewable energy by setting a binding target of 80% renewable electricity generation by 2030, funded by a carbon levy on fossil fuel imports.","Science, Energy & Environment",synthetic
+ex_032,"Halt all new wind farm approvals in protected rural and coastal areas pending an independent environmental impact assessment framework.","Science, Energy & Environment",synthetic
+ex_033,"Increase public funding for basic scientific research by 1.5% of GDP, ring-fenced from annual budget cycles and administered by an independent research council.","Science, Energy & Environment",synthetic
+ex_034,"Require all new government buildings to achieve net-zero carbon emissions by 2027, with retrofitting mandates for existing public infrastructure by 2035.","Science, Energy & Environment",synthetic
+ex_035,"Make civic education a standalone assessed subject in secondary school, covering the constitution, the electoral system, and the rights and duties of citizens.",Culture & Civic Education,synthetic
+ex_036,"Restore mandatory religious education in state schools as a graded subject, with opt-out provisions for families of non-religious backgrounds.",Culture & Civic Education,synthetic
+ex_037,"Establish public libraries as free co-working and digital access hubs, extending opening hours and providing broadband access to all users.",Culture & Civic Education,synthetic
+ex_038,"Fund a national programme of immersive theatre and civic storytelling projects in secondary schools to develop democratic participation skills.",Culture & Civic Education,synthetic
+ex_039,"Introduce a points-based immigration system that prioritises applicants with skills in shortage occupations and closes the automatic right of extended family reunification.",Identity & Social Cohesion,synthetic
+ex_040,"Grant permanent residency to all undocumented migrants who have lived and worked in the country continuously for more than five years.",Identity & Social Cohesion,synthetic
+ex_041,"Establish a national integration programme for all new residents, including language courses, civic orientation, and employment mentoring, free of charge.",Identity & Social Cohesion,synthetic
+ex_042,"Require public institutions to conduct all official communications exclusively in the national official language, without bilingual exceptions.",Identity & Social Cohesion,synthetic
+ex_043,"Create a permanent multilateral diplomatic forum for conflict mediation in the Western Mediterranean, co-chaired by the EU and the African Union.",International Relations,synthetic
+ex_044,"Withdraw from the NATO integrated military command and adopt a position of armed neutrality, maintaining only territorial defence capabilities.",International Relations,synthetic
+ex_045,"Ratify the UN Treaty on the Prohibition of Nuclear Weapons and advocate for its adoption by all EU member states.",International Relations,synthetic
+ex_046,"Negotiate bilateral free trade agreements with non-EU partners independently of the European Commission, prioritising national export sectors.",International Relations,synthetic
+ex_047,"Nationalise the electricity distribution network and operate it as a public utility to reduce household energy bills and eliminate private profit from essential infrastructure.",Economy & Taxation,synthetic
+ex_048,"Remove all price controls on energy markets and allow full competition between providers to drive down costs through market efficiency.",Economy & Taxation,synthetic
+ex_049,"Introduce a progressive corporate income tax with a minimum effective rate of 25% for companies with annual revenues above €10 million.",Economy & Taxation,synthetic
+ex_050,"Flatten the corporate tax rate to a single rate of 15% for all companies regardless of size, to encourage investment and reduce avoidance incentives.",Economy & Taxation,synthetic
+ex_051,"Mandate a minimum 40% gender quota for executive boards of all listed companies and public bodies with more than 50 employees.",Labour & Job Market,synthetic
+ex_052,"Abolish gender quotas in corporate governance. Appointments should be based solely on merit and professional qualifications.",Labour & Job Market,synthetic
+ex_053,"Extend parental leave to 24 weeks fully paid for each parent, non-transferable, funded through a shared contribution from employer, employee, and the state.",Labour & Job Market,synthetic
+ex_054,"Allow flexible contracting for digital platform workers, recognising their preference for independent working arrangements rather than mandating employee status.",Labour & Job Market,synthetic
+ex_055,"Classify all gig-economy platform workers as employees with full social security rights, including paid leave, sick pay, and redundancy protections.",Labour & Job Market,synthetic
+ex_056,"Create a national social housing authority responsible for building 50,000 affordable rental units per year for the next ten years.",Infrastructure & Housing,synthetic
+ex_057,"Introduce a vacancy tax on residential properties that have been unoccupied for more than 12 months, with revenues dedicated to housing construction.",Infrastructure & Housing,synthetic
+ex_058,"Abolish rent control legislation and replace it with a housing voucher programme targeted at low-income renters, preserving market price signals.",Infrastructure & Housing,synthetic
+ex_059,"Extend high-speed rail to all regional capitals with populations above 100,000, replacing domestic air routes of under 400 km by 2032.",Infrastructure & Housing,synthetic
+ex_060,"Transfer responsibility for regional rail infrastructure maintenance to private operators under long-term concession contracts with performance guarantees.",Infrastructure & Housing,synthetic
+ex_061,"Introduce a four-year minimum primary care contract between citizens and their GP practice, with continuity of care as a legally enforceable standard.",Public Services,synthetic
+ex_062,"Allow patients to use public health insurance vouchers at private clinics for elective procedures with waiting times above six months.",Public Services,synthetic
+ex_063,"Fund universal free school meals for all children in state primary and secondary schools, irrespective of household income.",Public Services,synthetic
+ex_064,"Introduce means testing for all non-contributory social benefits, phasing out universal entitlements where household income exceeds the median.",Public Services,synthetic
+ex_065,"Create an independent national anti-corruption authority with powers to freeze assets, compel testimony, and refer cases to prosecution without political approval.",Institutions & Government,synthetic
+ex_066,"Replace the current judicial appointment commission with direct parliamentary confirmation hearings for all Supreme Court and Constitutional Court nominees.",Institutions & Government,synthetic
+ex_067,"Lower the voting age to 16 for all elections, including national parliamentary elections and referenda.",Institutions & Government,synthetic
+ex_068,"Introduce compulsory voting with a registered abstention option, as practised in several established democracies, to increase electoral participation.",Institutions & Government,synthetic
+ex_069,"Provide free legal representation for all defendants in criminal proceedings where the potential sentence exceeds two years, funded from court fee revenues.",Rights & Freedoms,synthetic
+ex_070,"Abolish the statute of limitations for crimes involving serious harm to minors, allowing prosecution regardless of time elapsed since the offence.",Rights & Freedoms,synthetic
+ex_071,"Ban the sale of assault-style semi-automatic firearms to civilians, retaining regulated access to bolt-action rifles and shotguns for rural and sporting use.",Security & Defence,synthetic
+ex_072,"Permit law-abiding citizens to obtain a personal self-defence firearm licence through background checks and mandatory training, removing blanket restrictions on civilian ownership.",Security & Defence,synthetic
+ex_073,"Establish a national programme to retrofit 500,000 homes per year to energy efficiency standards, subsidised at 70% for low-income households.","Science, Energy & Environment",synthetic
+ex_074,"Invest in a national network of small modular nuclear reactors as the primary baseload power source for the post-2030 electricity grid.","Science, Energy & Environment",synthetic
+ex_075,"Fund a national digital literacy curriculum for adults, delivered through public libraries and community centres, targeting the 30% of the population without basic digital skills.",Culture & Civic Education,synthetic
+ex_076,"Require all state-funded cultural institutions to allocate a minimum 30% of their programming budget to works by artists under 35.",Culture & Civic Education,synthetic
+ex_077,"Expand the official use of regional co-official languages in national broadcasting, parliamentary proceedings, and federal-level public services.",Identity & Social Cohesion,synthetic
+ex_078,"Establish a constitutional prohibition on the use of any language other than the national official language in official state communications and public education.",Identity & Social Cohesion,synthetic
+ex_079,"Create a bilateral youth exchange programme with five neighbouring countries, funded by the state, allowing 10,000 young people per year to live and study abroad.",International Relations,synthetic
+ex_080,"Impose a 25% import tariff on agricultural goods from countries that do not meet equivalent food safety and environmental production standards.",International Relations,synthetic
+ex_081,"Introduce a national wealth tax of 1% annually on net assets above €2 million, with exemptions for primary residences and operating business assets.",Economy & Taxation,synthetic
+ex_082,"Reduce income tax rates in the two lowest brackets by 3 percentage points each to increase disposable income for low- and middle-income earners.",Economy & Taxation,synthetic
+ex_083,"Make all public transport free of charge for users, funded through a dedicated urban mobility tax on commercial vehicles and parking facilities.",Infrastructure & Housing,synthetic
+ex_084,"Privatise the national passenger rail operator and open intercity rail routes to competitive tendering, with a performance regulator maintaining safety standards.",Infrastructure & Housing,synthetic
+ex_085,"Prohibit private schools from charging fees above the state per-pupil funding rate, effectively removing the private fee-charging education sector.",Culture & Civic Education,synthetic
+ex_086,"Deregulate the education system entirely, allowing schools to set their own curriculum, fees, and staffing arrangements without state oversight of content.",Culture & Civic Education,synthetic
+ex_087,"Suspend delivery app operations during weather emergencies declared by the national meteorological service, to protect the safety of delivery workers.",Labour & Job Market,synthetic
+ex_088,"Reduce the minimum qualifying period for transport workers to claim statutory redundancy compensation from 24 months of continuous employment to 12 months.",Labour & Job Market,synthetic
+ex_089,"Introduce a mandatory profit-sharing scheme requiring all companies with more than 50 employees to distribute a minimum 10% of annual pre-tax profits to their workforce.",Labour & Job Market,synthetic
+ex_090,"Allow collective redundancies without administrative authorisation for companies with fewer than 100 employees, streamlining restructuring to preserve firm viability.",Labour & Job Market,synthetic
+ex_091,"Create a state-run digital identity platform giving citizens a single secure login for all public services, replacing fragmented agency systems.",Institutions & Government,synthetic
+ex_092,"Prohibit the state from holding centralised biometric or behavioural data on citizens outside of explicit judicial warrants, and mandate annual independent audits of all data held.",Institutions & Government,synthetic
+ex_093,"Establish a universal long-term care entitlement funded by a dedicated payroll contribution, providing residential and home-based support for all citizens over 65 assessed as requiring it.",Public Services,synthetic
+ex_094,"Transfer responsibility for elderly care to local authorities funded by ring-fenced grants, with national minimum standards but discretion over service delivery models.",Public Services,synthetic
+ex_095,"Mandate that all domestic flights under 500 km be replaced by rail alternatives within five years, with compensation for affected airline workers and regional airports.","Science, Energy & Environment",synthetic
+ex_096,"Oppose all new restrictions on domestic aviation and reject proposals to replace short-haul flights with rail, citing competitiveness and connectivity for peripheral regions.","Science, Energy & Environment",synthetic
+ex_097,"Recognise the right of historically marginalised communities to receive targeted reparations, including educational grants and preferential access to public procurement contracts.",Identity & Social Cohesion,synthetic
+ex_098,"Oppose race-based or group-based preferential policies in public hiring and procurement, maintaining a strictly individual-merit framework for all state-administered opportunities.",Identity & Social Cohesion,synthetic
+ex_099,"Negotiate full accession to the European Union's banking union and capital markets union, transferring national financial regulatory authority to EU-level supervisory bodies.",International Relations,synthetic
+ex_100,"Conduct a national referendum on continued membership of the EU single market, with a two-year parliamentary debate period before any vote is held.",International Relations,synthetic
