@@ -13,7 +13,7 @@
 #   3. dimensionality — PCA, VIF, and 2-axis reconstruction R²
 #
 # Prerequisites:
-#   pip install pandas pyarrow scikit-learn sentence-transformers scipy matplotlib seaborn
+#   pip install -e .    (from the ideology-mapping/ root)
 #
 # Set --skip-predictive if you have no interaction/vote data.
 

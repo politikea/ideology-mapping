@@ -24,7 +24,7 @@ The 8 axes in `prompts/label_8axis_v1.txt` are a design choice, not a universal 
 
 ### 3. Cross-model calibration protocols
 
-Both Gemini 2.5 Flash and llama3.1:8b fail the triangulation gate against GPT-5.2 (see the paper, Section 4.2). We believe:
+Both Gemini 2.5 Flash and llama3.1:8b fail the triangulation gate against the primary GPT model (see the paper, Section 4.2). We believe:
 - Gemini's failure (positivity bias) is correctable via per-axis offset normalization or few-shot polarity anchors
 - llama's failure (task overload) is correctable via task decomposition (Variant F from the prompt ablation) or a larger model
 
@@ -65,4 +65,4 @@ For larger changes (new axis sets, language ports, calibration protocols), pleas
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the same license as the project (Apache 2.0 or MIT — to be finalized before public release).
+By contributing, you agree that your contributions will be licensed under the Apache License 2.0, the same license as the project.

@@ -1,13 +1,14 @@
 [build-system]
 requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.backends.legacy:build"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "politikea-ideology-mapping"
-version = "0.1.0"
+version = "0.2.0"
 description = "Methodology replication toolkit for multi-axis AI-based ideological scoring of political proposals"
 readme = "README.md"
 license = { file = "LICENSE" }
+authors = [{name = "Juan Vergara", email = "juan.vergara@politikea.io"}]
 requires-python = ">=3.9"
 keywords = ["political science", "ideology", "NLP", "LLM", "civic AI"]
 classifiers = [
@@ -21,26 +22,28 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 dependencies = [
-    "pandas>=1.5",
-    "pyarrow>=12",
-    "scikit-learn>=1.2",
-    "scipy>=1.10",
-    "numpy>=1.24",
-    "sentence-transformers>=2.2",
-    "matplotlib>=3.7",
-    "seaborn>=0.12",
-    "pyyaml>=6.0",
+    "pandas>=1.5,<3",
+    "pyarrow>=12,<18",
+    "scikit-learn>=1.2,<2",
+    "scipy>=1.10,<2",
+    "numpy>=1.24,<2",
+    "matplotlib>=3.7,<4",
+    "seaborn>=0.12,<1",
+    "pyyaml>=6.0,<7",
+    "sentence-transformers>=2.2,<4",
+    "tqdm>=4.60",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=7", "ruff>=0.1"]
+scoring = ["anthropic>=0.30", "openai>=1.0,<3"]
+dev = ["pytest>=7", "ruff>=0.1", "ipykernel>=6.0"]
 
 [project.scripts]
 ideology-mapping = "cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["toolkit*", "analysis*"]
+include = ["analysis*"]
 
 [tool.ruff]
 line-length = 100

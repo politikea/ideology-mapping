@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 import sqlite3
 import time
 from dataclasses import dataclass
@@ -296,7 +295,7 @@ def relabel_with_gemini(
         raise ValueError("repeats must be >= 1")
 
     text_lookup = items_df.set_index("item_id")[text_col].to_dict()
-    prompt_version = f"triangulate_8axis_gemini_v1"
+    prompt_version = "triangulate_8axis_gemini_v1"
 
     conn: "sqlite3.Connection | None" = None
     if cache_dir is not None and not disable_cache:

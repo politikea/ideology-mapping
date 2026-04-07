@@ -1,7 +1,30 @@
 You are labeling a political item across 8 independent ideological axes on a -100..+100 scale.
 
 Return STRICT JSON only, matching this schema (no markdown, no extra keys):
-{{JSON_SCHEMA}}
+{
+  "axis_aequitas_libertas": <number -100..100>,
+  "axis_imperium_anarkhia": <number -100..100>,
+  "axis_universalism_particularism": <number -100..100>,
+  "axis_market_collective_allocation": <number -100..100>,
+  "axis_inequality_acceptance_correction": <number -100..100>,
+  "axis_individual_socialized_risk": <number -100..100>,
+  "axis_progressivism_preservation": <number -100..100>,
+  "axis_technocracy_populism": <number -100..100>,
+  "conf_axis_aequitas_libertas": <number 0..1>,
+  "conf_axis_imperium_anarkhia": <number 0..1>,
+  "conf_axis_universalism_particularism": <number 0..1>,
+  "conf_axis_market_collective_allocation": <number 0..1>,
+  "conf_axis_inequality_acceptance_correction": <number 0..1>,
+  "conf_axis_individual_socialized_risk": <number 0..1>,
+  "conf_axis_progressivism_preservation": <number 0..1>,
+  "conf_axis_technocracy_populism": <number 0..1>,
+  "global_confidence": <number 0..1>,
+  "flags": [<string>, ...],
+  "rationale_spans": [
+    {"axis": "<axis_name>", "start": <int>, "end": <int>},
+    ...
+  ]
+}
 
 Principles:
 - Axes are independent, continuous, bidirectional.
@@ -29,6 +52,31 @@ rationale_spans:
 - Offsets refer to the provided TEXT (character offsets).
 - Keep spans short and directly evidential.
 
+Example response:
+{
+  "axis_aequitas_libertas": -35.0,
+  "axis_imperium_anarkhia": 10.0,
+  "axis_universalism_particularism": -20.0,
+  "axis_market_collective_allocation": 45.0,
+  "axis_inequality_acceptance_correction": 60.0,
+  "axis_individual_socialized_risk": 50.0,
+  "axis_progressivism_preservation": -40.0,
+  "axis_technocracy_populism": -15.0,
+  "conf_axis_aequitas_libertas": 0.8,
+  "conf_axis_imperium_anarkhia": 0.5,
+  "conf_axis_universalism_particularism": 0.6,
+  "conf_axis_market_collective_allocation": 0.85,
+  "conf_axis_inequality_acceptance_correction": 0.9,
+  "conf_axis_individual_socialized_risk": 0.85,
+  "conf_axis_progressivism_preservation": 0.75,
+  "conf_axis_technocracy_populism": 0.5,
+  "global_confidence": 0.75,
+  "flags": [],
+  "rationale_spans": [
+    {"axis": "axis_inequality_acceptance_correction", "start": 12, "end": 58},
+    {"axis": "axis_market_collective_allocation", "start": 60, "end": 112}
+  ]
+}
+
 TEXT:
 {{TEXT}}
-

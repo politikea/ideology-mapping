@@ -9,12 +9,11 @@ All functions are pure; callers handle I/O.
 """
 from __future__ import annotations
 
-from typing import Optional
 
 import numpy as np
 import pandas as pd
 
-from .label_io import AXES, CONF_AXES
+from .label_io import AXES
 from .stats_utils import benjamini_hochberg, binomial_sign_test, sign_agreement
 
 try:
@@ -33,7 +32,7 @@ _JUNK_PATTERNS = [
     r"(?i)no puedo abrir",              # app bug reports
     r"(?i)^(si|no|sí)\s*[o\|/]\s*(no|sí|si)\s*[\?¿]?$",  # "si o no?"
 ]
-import re as _re
+import re as _re  # noqa: E402
 _JUNK_RE = [_re.compile(p) for p in _JUNK_PATTERNS]
 
 
@@ -145,7 +144,7 @@ def compute_item_stability(df: pd.DataFrame) -> pd.DataFrame:
 
     # Try to import pingouin for ICC; fall back gracefully
     try:
-        import pingouin as pg
+        import pingouin as pg  # noqa: F401
         _has_pingouin = True
     except ImportError:
         _has_pingouin = False
@@ -242,7 +241,6 @@ def _compute_icc_batch(
         Pingouin changed CI column naming across versions.
         Accept known variants and fall back to NaN safely.
         """
-        ci_candidates = ["CI95%", "CI95", "CI95%_lower", "CI95%_upper"]
         cols = set(icc_row.columns)
 
         # Variant A: tuple/list-like column
@@ -382,7 +380,6 @@ def cleaning_summary(stability: pd.DataFrame) -> dict:
     """
     Return a dict of summary statistics for the cleaning report.
     """
-    valid = stability[stability["valid"]]
     summary: dict = {
         "total_items": int(len(stability)),
         "valid_items": int(stability["valid"].sum()),

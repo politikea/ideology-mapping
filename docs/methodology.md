@@ -1,7 +1,7 @@
 # Methodology
 
 This document describes the full methodology pipeline used in Politikea Phase 1.
-For the full analysis with results, see the paper: [link pending].
+For the full analysis with results, see [PAPER.pdf](../PAPER.pdf) (arXiv submission pending).
 For the axis definitions, see `docs/axes.md` and `prompts/label_8axis_v1.txt`.
 
 ---
@@ -9,7 +9,7 @@ For the axis definitions, see `docs/axes.md` and `prompts/label_8axis_v1.txt`.
 ## Overview
 
 1. Proposals are collected from the Politikea platform (Spanish, 20–200 words each)
-2. Each proposal is scored by GPT-5.2 across 8 ideological axes, N≈13 times
+2. Each proposal is scored by the primary GPT model across 8 ideological axes, N≈13 times
 3. Multi-run scores are aggregated and filtered for reliability
 4. The resulting clean labels are analyzed for dimensionality, semantic validity, and cross-model agreement
 
@@ -17,7 +17,7 @@ For the axis definitions, see `docs/axes.md` and `prompts/label_8axis_v1.txt`.
 
 ## Step 1: Scoring
 
-**Model**: GPT-5.2 with structured JSON output enforced by the API.
+**Model**: the primary GPT model with structured JSON output enforced by the API.
 
 **Prompt**: `prompts/label_8axis_v1.txt` — passed verbatim with the proposal text substituted at `{{TEXT}}` and the JSON schema at `{{JSON_SCHEMA}}`.
 
@@ -26,16 +26,19 @@ For the axis definitions, see `docs/axes.md` and `prompts/label_8axis_v1.txt`.
 - An ICC(2,1) reliability measure
 - A validity flag for filtering
 
-**Output schema per run**:
+**Output schema per run** (flat structure — see `prompts/label_8axis_v1_schema.json` for the full JSON Schema):
 ```json
 {
-  "global_confidence": 0.0,
-  "axes": {
-    "axis_aequitas_libertas": {"score": 0.0, "confidence": 0.0},
-    ...
-  },
+  "axis_aequitas_libertas": -35.0,
+  "axis_imperium_anarkhia": 10.0,
+  "...": "(...6 more axis scores, each -100 to +100)",
+  "conf_axis_aequitas_libertas": 0.8,
+  "conf_axis_imperium_anarkhia": 0.5,
+  "...": "(...6 more per-axis confidences, each 0 to 1)",
+  "global_confidence": 0.75,
+  "flags": [],
   "rationale_spans": [
-    {"axis": "axis_aequitas_libertas", "start": 0, "end": 20, "text": "..."}
+    {"axis": "axis_aequitas_libertas", "start": 12, "end": 58}
   ]
 }
 ```
@@ -55,7 +58,7 @@ For the axis definitions, see `docs/axes.md` and `prompts/label_8axis_v1.txt`.
 
 **Outputs**: `labels_clean.parquet` — one row per proposal with aggregated scores and validity flag
 
-**Phase 1 result**: 2,442 / 2,977 valid (82.0%), ICC ≥ 0.885 across all 8 axes.
+**Typical result**: 70–85% of proposals pass the validity gate. See the paper for Phase 1 specific numbers.
 
 **Threshold sensitivity**: results are robust across a wide range of threshold configurations. The paper (Appendix B) summarises the full sensitivity grid.
 
@@ -75,7 +78,7 @@ For the axis definitions, see `docs/axes.md` and `prompts/label_8axis_v1.txt`.
 1. Primary (text → 8D): build text-space nearest-neighbor graph, compute 8D similarity for each pair
 2. Diagnostic (8D → text): build 8D nearest-neighbor graph, compute text similarity for each pair
 
-**Key finding**: global ρ = 0.198 but misleading. Within-category ρ = 0.076. The joint filter (text ≥ 0.70 AND 8D ≥ 0.70) is the reliable signal — it eliminates both noise modes simultaneously.
+**Key finding**: global ρ is positive but misleading. Within-category ρ is much lower — the global signal is confounded by category. The joint filter (text ≥ 0.70 AND 8D ≥ 0.70) is the reliable signal — it eliminates both noise modes simultaneously. See the paper for specific values.
 
 ---
 
@@ -91,16 +94,17 @@ For the axis definitions, see `docs/axes.md` and `prompts/label_8axis_v1.txt`.
 
 **Reconstruction R²**: for each of the 28 2-axis pairs, fit Ridge regression from the 2-axis subspace to all 8 axes, compute mean R². This measures how much of the full ideological structure is captured by each pair.
 
-**Phase 1 result**:
-- 3 PCs explain ≥ 80% of variance
-- Best 2-axis pair: aequitas + progressivism (R² = 0.626)
-- Politikea product pair (aequitas + imperium): R² = 0.589, rank 11 of 28
+Run `cli.py dimensionality` on your data to get corpus-specific PCA and R² results. See the paper for Phase 1 benchmarks.
+
+<img src="figures/axis_r2_heatmap.png" width="690" alt="R² heatmap — all 2-axis pairs">
+
+*Reconstruction R² for all 28 two-axis pairs (rows) predicting all 8 axes (columns). Green = high fidelity, red = poor reconstruction.*
 
 ---
 
 ## Step 5: Cross-Model Triangulation (advanced)
 
-Not exposed as a CLI subcommand by default — requires API access to audit models.
+Available via `cli.py triangulate`. Requires audit model labels (see `docs/calibration-protocol.md`).
 
 **Protocol**:
 1. Draw stratified sample of N proposals

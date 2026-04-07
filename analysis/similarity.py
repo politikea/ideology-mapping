@@ -19,7 +19,6 @@ import time
 import warnings
 from pathlib import Path
 from typing import Optional
-import re
 
 import numpy as np
 import pandas as pd

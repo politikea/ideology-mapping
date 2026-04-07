@@ -144,14 +144,14 @@ def compute_landing_convergence(
     action_col: str = "action",
 ) -> dict:
     """
-    Test whether the ideological diversity of proposals a user engages with
+    Test whether the ideological diversity of proposals that users are exposed to
     decreases over time — the filter bubble / convergence hypothesis.
 
     Only analyses users with >= min_votes interactions (default 100).
 
-    For each qualifying user, computes a rolling-window variance of the
-    8D vectors of proposals they engaged with. Decreasing variance would
-    indicate the platform is serving an ideologically narrowing feed.
+    For each qualifying user in the cohort, computes a rolling-window variance of
+    the 8D vectors of proposals they were exposed to. Decreasing variance at the
+    cohort level would indicate the platform is serving an ideologically narrowing feed.
 
     Returns a dict with:
         retention_funnel       {vote_threshold: n_users}
@@ -303,13 +303,13 @@ def cross_category_contradictions(
     min_votes: int = 5,
 ) -> pd.DataFrame:
     """
-    Find user contradictions: voting patterns that imply opposite positions
-    on the same axis in different policy categories.
+    Find cross-category contradictions: aggregate voting patterns where a cohort's
+    position on the same axis reverses between policy categories.
 
     A contradiction occurs when:
-        sign(user position on axis A in category X) !=
-        sign(user position on axis A in category Y)
-    where both positions are computed from >= min_votes interactions.
+        sign(cohort position on axis A in category X) !=
+        sign(cohort position on axis A in category Y)
+    where both positions are computed from >= min_votes interactions per user.
 
     Returns:
         DataFrame with columns: category_x, category_y, axis,

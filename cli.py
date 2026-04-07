@@ -32,8 +32,8 @@ def _add_toolkit_to_path() -> None:
 
 _add_toolkit_to_path()
 
-from analysis.cleaning import compute_item_stability, filter_by_confidence, flag_valid_items
-from analysis.label_io import load_all_runs
+from analysis.cleaning import compute_item_stability, filter_by_confidence, flag_valid_items  # noqa: E402
+from analysis.label_io import load_all_runs  # noqa: E402
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -175,6 +175,43 @@ def build_parser() -> argparse.ArgumentParser:
         help="Optional path to interactions CSV (item_id, user_id, vote) for AUC analysis.",
     )
 
+    # ── triangulate ────────────────────────────────────────────────────────────
+    p_tri = sub.add_parser(
+        "triangulate",
+        help="Cross-model triangulation: compare reference labels against an audit model.",
+        description=(
+            "Compares two sets of labels (reference vs. audit model) to detect\n"
+            "calibration biases. Computes directional agreement and MAE per axis,\n"
+            "applies the publication gate, and writes a structured report.\n\n"
+            "Input:  reference labels (parquet) + audit labels (parquet)\n"
+            "Output: triangulation_report.md with per-axis metrics and gate decision"
+        ),
+    )
+    p_tri.add_argument(
+        "--reference", required=True,
+        help="Path to reference model labels_clean.parquet (must have {axis}_mean columns).",
+    )
+    p_tri.add_argument(
+        "--audit", required=True,
+        help="Path to audit model labels parquet (must have {axis}_ollama columns).",
+    )
+    p_tri.add_argument(
+        "--output-dir", required=True,
+        help="Directory for the triangulation report.",
+    )
+    p_tri.add_argument(
+        "--min-directional-agreement", type=float, default=0.85,
+        help="Minimum mean directional agreement to pass gate (default: 0.85).",
+    )
+    p_tri.add_argument(
+        "--max-mae", type=float, default=15.0,
+        help="Maximum mean absolute error to pass gate (default: 15.0).",
+    )
+    p_tri.add_argument(
+        "--max-axis-mae", type=float, default=20.0,
+        help="Maximum per-axis MAE to pass gate (default: 20.0).",
+    )
+
     # ── insights ───────────────────────────────────────────────────────────────
     p_ins = sub.add_parser(
         "insights",
@@ -206,7 +243,7 @@ def build_parser() -> argparse.ArgumentParser:
     return p
 
 
-def _load_items(path: str) -> "pd.DataFrame":
+def _load_items(path: str) -> "pd.DataFrame":  # noqa: F821
     """Load a proposals file from CSV or parquet."""
     import pandas as pd
     p = Path(path)
@@ -239,7 +276,6 @@ def cmd_clean(args: argparse.Namespace) -> int:
 
 def cmd_validate(args: argparse.Namespace) -> int:
     import pandas as pd
-    from analysis.label_io import AXES
     from analysis.similarity import (
         spearman_text_vs_8d,
         spearman_8d_vs_text,
@@ -444,7 +480,9 @@ def _write_validation_report(
         a("")
         a("| # | Axis | ρ | 95% CI | p | n | Signal |")
         a("|---|------|---|--------|---|---|--------|")
-        short = lambda x: x.replace("axis_", "").replace("_", " ")
+        def short(x: str) -> str:
+            return x.replace("axis_", "").replace("_", " ")
+
         for idx, (axis, r) in enumerate(
             sorted(axis_projections.items(), key=lambda x: -x[1]["rho"]), 1
         ):
@@ -470,7 +508,9 @@ def _write_validation_report(
     if lexical_anchors:
         a("## 5. Vocabulary Signatures Per Axis (H2)")
         a("")
-        short = lambda x: x.replace("axis_", "").replace("_", " ")
+        def short(x: str) -> str:
+            return x.replace("axis_", "").replace("_", " ")
+
         for axis, data in lexical_anchors.items():
             rho_str = ""
             if axis_projections and axis in axis_projections:
@@ -502,9 +542,7 @@ def _write_validation_report(
 
 
 def cmd_dimensionality(args: argparse.Namespace) -> int:
-    import numpy as np
     import pandas as pd
-    from analysis.label_io import AXES
     from analysis.dimensionality import (
         pca_analysis,
         reconstruction_r2_all_subsets,
@@ -523,8 +561,8 @@ def cmd_dimensionality(args: argparse.Namespace) -> int:
 
     print(f"[dimensionality] Items with complete 8D labels: {len(X):,}")
 
-    pca_result = pca_analysis(X, n_components=min(8, len(X.columns)))
-    r2_result  = reconstruction_r2_all_subsets(X, axis_cols=list(X.columns), n_boot=args.n_boot)
+    pca_result = pca_analysis(X, axis_cols=list(X.columns))
+    r2_result  = reconstruction_r2_all_subsets(X, axis_cols=list(X.columns))
 
     report_path = out_dir / "dimensionality_report.md"
     with open(report_path, "w") as f:
@@ -541,17 +579,132 @@ def cmd_dimensionality(args: argparse.Namespace) -> int:
                     f"| {row.get('explained_variance_ratio', 0):.3f} "
                     f"| {row.get('cumulative_variance', 0):.3f} |\n"
                 )
-        if r2_result:
-            top = sorted(r2_result, key=lambda x: x.get("mean_r2", 0), reverse=True)[:10]
+        if r2_result is not None and not r2_result.empty:
+            r2_k2 = r2_result[r2_result["k"] == 2].copy() if "k" in r2_result.columns else r2_result
+            r2_k2 = r2_k2.sort_values("mean_r2", ascending=False).head(10)
             f.write("\n## Top 10 Two-Axis Pairs by Reconstruction R²\n\n")
             f.write("| Rank | Pair | Mean R² |\n")
             f.write("|------|------|---------|\n")
-            for i, row in enumerate(top, 1):
-                f.write(f"| {i} | {row.get('pair', '')} | {row.get('mean_r2', 0):.4f} |\n")
+            for i, (_, row) in enumerate(r2_k2.iterrows(), 1):
+                pair_str = str(row.get("subset_axes", ""))
+                # Clean up tuple representation for display
+                pair_str = pair_str.replace("_mean", "").replace("axis_", "").replace("(", "").replace(")", "").replace("'", "")
+                f.write(f"| {i} | {pair_str} | {row.get('mean_r2', 0):.4f} |\n")
         f.write("\n_Report generated by `cli.py dimensionality`_\n")
 
     print(f"[dimensionality] Report -> {report_path}")
     return 0
+
+
+def cmd_triangulate(args: argparse.Namespace) -> int:
+    import pandas as pd
+    from analysis.label_io import AXES
+    from analysis.triangulation import TriangulationRule, evaluate_agreement
+
+    ref_df = pd.read_parquet(args.reference)
+    audit_df = pd.read_parquet(args.audit)
+
+    out_dir = Path(args.output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    # Ensure reference has _mean columns
+    axis_mean_cols = [c for c in ref_df.columns if c.startswith("axis_") and c.endswith("_mean")]
+    if not axis_mean_cols:
+        for axis in AXES:
+            if axis in ref_df.columns:
+                ref_df[f"{axis}_mean"] = ref_df[axis]
+
+    rule = TriangulationRule(
+        min_directional_agreement=args.min_directional_agreement,
+        max_mean_abs_delta=args.max_mae,
+        max_axis_mean_abs_delta=args.max_axis_mae,
+    )
+
+    merged = ref_df.merge(audit_df, on="item_id", how="inner")
+    print(f"[triangulate] Matched items: {len(merged):,}")
+
+    result = evaluate_agreement(ref_df, audit_df, rule=rule)
+
+    gate = result["pass_gate"]
+    summary = result.get("summary", {})
+    print(f"[triangulate] Gate: {'PASS' if gate else 'FAIL'}")
+    print(f"[triangulate] Mean directional agreement: {summary.get('mean_directional_agreement', float('nan')):.3f}")
+    print(f"[triangulate] Mean absolute error: {summary.get('mean_abs_delta', float('nan')):.1f}")
+
+    # Write report
+    report_path = out_dir / "triangulation_report.md"
+    _write_triangulation_report(result, rule, report_path)
+    print(f"[triangulate] Report -> {report_path}")
+    return 0
+
+
+def _write_triangulation_report(result: dict, rule: "TriangulationRule", out_path: Path) -> None:  # noqa: F821
+    """Write a structured Markdown triangulation report."""
+    lines: list[str] = []
+    a = lines.append
+
+    gate = result["pass_gate"]
+    summary = result.get("summary", {})
+
+    a("# Cross-Model Triangulation Report")
+    a("")
+    a(f"**Gate decision: {'PASS' if gate else 'FAIL'}**")
+    a("")
+    a("## Gate Thresholds")
+    a("")
+    a("| Metric | Threshold | Actual | Status |")
+    a("|--------|-----------|--------|--------|")
+
+    dir_agree = summary.get("mean_directional_agreement", float("nan"))
+    mean_mae = summary.get("mean_abs_delta", float("nan"))
+    max_axis_mae = summary.get("max_axis_mean_abs_delta", float("nan"))
+
+    import math
+    dir_ok = not math.isnan(dir_agree) and dir_agree >= rule.min_directional_agreement
+    mae_ok = not math.isnan(mean_mae) and mean_mae <= rule.max_mean_abs_delta
+    axis_ok = not math.isnan(max_axis_mae) and max_axis_mae <= rule.max_axis_mean_abs_delta
+
+    a(f"| Directional agreement | >= {rule.min_directional_agreement:.2f} | "
+      f"{dir_agree:.3f} | {'PASS' if dir_ok else 'FAIL'} |")
+    a(f"| Mean MAE | <= {rule.max_mean_abs_delta:.1f} | "
+      f"{mean_mae:.1f} | {'PASS' if mae_ok else 'FAIL'} |")
+    a(f"| Max axis MAE | <= {rule.max_axis_mean_abs_delta:.1f} | "
+      f"{max_axis_mae:.1f} | {'PASS' if axis_ok else 'FAIL'} |")
+    a("")
+    a(f"Items compared: {summary.get('n_items_compared', 0):,}")
+    a("")
+
+    axis_metrics = result.get("axis_metrics", [])
+    if axis_metrics:
+        a("## Per-Axis Metrics")
+        a("")
+        a("| Axis | Directional Agreement | MAE | N |")
+        a("|------|----------------------|-----|---|")
+        def short(x: str) -> str:
+            return x.replace("axis_", "").replace("_", " ")
+
+        for am in sorted(axis_metrics, key=lambda x: -x.get("directional_agreement", 0)):
+            a(f"| {short(am['axis'])} | {am['directional_agreement']:.3f} | "
+              f"{am['mae']:.1f} | {am['n']} |")
+        a("")
+
+    if not gate:
+        a("## Interpretation")
+        a("")
+        a("The audit model **failed** the triangulation gate. This means the audit model's")
+        a("scores diverge from the reference model beyond acceptable thresholds.")
+        a("")
+        a("Common failure patterns:")
+        a("- **Acquiescence bias**: audit model shifts all scores in one direction (check if MAE is high but directional agreement is moderate)")
+        a("- **Task overload**: audit model produces coarse/quantized scores (check per-axis MAE spread)")
+        a("- **Axis confusion**: specific axes have very low directional agreement (check per-axis table)")
+        a("")
+        a("See `docs/prompt-engineering.md` for strategies to improve open-weight model agreement.")
+
+    a("")
+    a("_Report generated by `cli.py triangulate`_")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text("\n".join(lines), encoding="utf-8")
 
 
 def cmd_insights(args: argparse.Namespace) -> int:
@@ -588,7 +741,8 @@ def cmd_insights(args: argparse.Namespace) -> int:
 
     # Write report
     report_path = out_dir / "insights_report.md"
-    short = lambda x: x.replace("axis_", "").replace("_", " ")
+    def short(x: str) -> str:
+        return x.replace("axis_", "").replace("_", " ")
 
     with open(report_path, "w") as f:
         f.write("# Insights Report\n\n")
@@ -652,6 +806,8 @@ def main() -> int:
         return cmd_validate(args)
     if args.cmd == "dimensionality":
         return cmd_dimensionality(args)
+    if args.cmd == "triangulate":
+        return cmd_triangulate(args)
     if args.cmd == "insights":
         return cmd_insights(args)
     return 1
